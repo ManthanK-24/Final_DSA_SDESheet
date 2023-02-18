@@ -11,16 +11,37 @@
  */
 class Solution {
 public:
-    void preOrder(TreeNode* root,vector<int>& ds){
-        if(!root)return;
-        ds.push_back(root->val);
-        preOrder(root->left,ds);
-        preOrder(root->right,ds);
-
-    }
     vector<int> preorderTraversal(TreeNode* root) {
-        vector<int> ds; // dataStructure
-        preOrder(root,ds);
-        return ds;
+        // Morris Traversal TC:O(n) SC:O(1)
+         vector<int> preOrder;
+        TreeNode* cur = root;
+        while(cur!=NULL)
+        {
+             if(cur->left==NULL)
+             {
+                 preOrder.push_back(cur->val);
+                 cur = cur->right;
+             }
+             else
+             {
+                 TreeNode* prev = cur->left;
+                 while(prev ->right && prev->right!= cur)
+                 {
+                     prev = prev ->right;
+                 }
+                 if(prev ->right == NULL)
+                 {
+                     prev ->right = cur;
+                     preOrder.push_back(cur->val);
+                     cur = cur ->left;
+                 }
+                 else
+                 {
+                     prev ->right = NULL;
+                     cur = cur->right;
+                 }
+             }
+        }
+        return preOrder;
     }
 };
