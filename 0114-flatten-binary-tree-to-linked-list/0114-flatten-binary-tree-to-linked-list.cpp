@@ -18,7 +18,7 @@ public:
         prev = helper(root->left,prev);
         root->right = prev;
         root->left = NULL;
-        prev = root;
+      //  prev = root;
         return root;
     }
     void flatten(TreeNode* root) {
