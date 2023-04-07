@@ -1,34 +1,32 @@
 class Solution {
 public:
-    vector<string> commonChars(vector<string>& words) {
+    vector<string> commonChars(vector<string>& a) {
         
-        vector<string> ans;
-        map<char,int> minFreqOverAll;
-        for(char ch='a';ch<='z';ch++)
-        {
-            minFreqOverAll[ch] = INT_MAX;
-        }
-        for(auto word:words)
-        {
-            map<char,int> freq;
-            for(auto ch:word)
-            {
-                freq[ch]++;
+        int hash[26] = {0};
+        vector<string> o;
+        for(char s : a[0])
+            ++hash[s - 'a'];
+        for(int i = 1; i < a.size(); ++i){
+            int arr[26] = {0};
+            for(char c : a[i]){
+                ++arr[c - 'a'];
             }
-            for(char ch='a';ch<='z';ch++)
-            {
-                minFreqOverAll[ch] = min(minFreqOverAll[ch],freq[ch]);
-            }
-            
-        }
-        for(char ch='a';ch<='z';ch++)
-            {
-                while(minFreqOverAll[ch]>0)
-                {
-                    ans.push_back(string(1,ch));
-                    minFreqOverAll[ch]--;
+            for(int i = 0; i < 26; ++i){
+                if(arr[i] == 0) hash[i] = 0;
+                else{
+                    hash[i] = min(arr[i], hash[i]);
                 }
             }
-        return ans;
+        }
+        for(int i = 0; i < 26; ++i){
+                while(hash[i] > 0){
+                    string c = "";
+                    c += (i + 'a');
+                     //o.push_back(string(1,i+'a'));
+                    o.push_back(c);
+                    --hash[i];
+                }
+        }        
+        return o;
     }
 };
