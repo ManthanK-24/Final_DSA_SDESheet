@@ -1,40 +1,74 @@
+struct Node{
+    Node *link[26];
+    bool flag = false;
+    bool containsKey(char ch)
+    {
+        return link[ch-'a']!=NULL;
+    }
+    void put(char ch, Node* node)
+    {
+        link[ch-'a'] = node;
+    }
+    Node *get(char ch)
+    {
+        return link[ch-'a'];
+    }
+    void setEnd()
+    {
+       flag = true;    
+    }
+    bool isEnd()
+    {
+        return flag;
+    }
+};
+
 class Trie {
+private: Node* root;
 public:
-    Trie() {}
-
+    Trie() {
+        root = new Node();
+    }
+    
     void insert(string word) {
-        Trie* node = this;
-        for (char ch : word) {
-            ch -= 'a';
-            if (!node->next[ch]) { node->next[ch] = new Trie(); }
-            node = node->next[ch];
+        Node* node = root;
+        for(int i=0;i<word.size();i++)
+        {
+            if(!node->containsKey(word[i]))
+            {
+                node->put(word[i],new Node());
+            }
+            node=node->get(word[i]);
         }
-        node->isword = true;
+        node->setEnd();
     }
-
+    
     bool search(string word) {
-        Trie* node = this;
-        for (char ch : word) {
-            ch -= 'a';
-            if (!node->next[ch]) { return false; }
-            node = node->next[ch];
+        Node* node = root;
+        for(int i=0;i<word.size();i++)
+        {
+            if(!node->containsKey(word[i]))
+            {
+                return false;
+            }
+            node=node->get(word[i]);
         }
-        return node->isword;
+        return node->isEnd();
+        
     }
-
+    
     bool startsWith(string prefix) {
-        Trie* node = this;
-        for (char ch : prefix) {
-            ch -= 'a';
-            if (!node->next[ch]) { return false; }
-            node = node->next[ch];
+        Node* node = root;
+        for(int i=0;i<prefix.size();i++)
+        {
+            if(!node->containsKey(prefix[i]))
+            {
+                return false;
+            }
+            node=node->get(prefix[i]);
         }
         return true;
     }
-
-private:
-    Trie* next[26] = {};
-    bool isword = false;
 };
 
 /**
