@@ -1,39 +1,20 @@
-/**
- * Definition for a binary tree node.
- * type TreeNode struct {
- *     Val int
- *     Left *TreeNode
- *     Right *TreeNode
- * }
- */
-func leafSimilar(root1 *TreeNode, root2 *TreeNode) bool {
-    var arr1, arr2 []int
-    
-    dfs(root1, &arr1)
-    dfs(root2, &arr2)
-    
-    if len(arr1) != len(arr2) {
-        return false
-    }
-    
-    for i := 0; i < len(arr1); i++ {
-        if arr1[i] != arr2[i] {
-            return false
-        }   
-    }
-    
-    return true
-}
-
-func dfs(root *TreeNode, arr *[]int) {
-    if root == nil {
-        return 
-    }
-    
-    if root.Left == nil && root.Right == nil {
-        *arr = append(*arr, root.Val)
-    }
-    
-    dfs(root.Left, arr)
-    dfs(root.Right, arr)
-}
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def leafSimilar(self, root1, root2):
+        """
+        :type root1: TreeNode
+        :type root2: TreeNode
+        :rtype: bool
+        """
+        return self.findleaf(root1) == self.findleaf(root2)
+        
+    def findleaf(self, root):
+        if not root: return []
+        if not (root.left or root.right): return [root.val]
+        return self.findleaf(root.left) + self.findleaf(root.right)
+        
