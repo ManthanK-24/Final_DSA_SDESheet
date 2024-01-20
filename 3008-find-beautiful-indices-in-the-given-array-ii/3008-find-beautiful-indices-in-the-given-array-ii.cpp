@@ -1,4 +1,7 @@
-vector<int> createLPS(string pattern)
+
+class Solution {
+public:
+    vector<int> createLPS(string pattern)
 {
     vector<int> lps(pattern.size());
     lps[0] = 0;
@@ -52,8 +55,6 @@ vector<int> KMPSearch(string text, string pattern)
     }
     return matches;
 }
-class Solution {
-public:
     vector<int> beautifulIndices(string s, string a, string b, int k) {
         
         vector<int> ans;
