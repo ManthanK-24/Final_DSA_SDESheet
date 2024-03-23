@@ -2,22 +2,19 @@ class Solution {
 public:
     vector<int> sortedSquares(vector<int>& nums) {
         
-        map<int,int> mp;
-        for(auto x:nums)
+    
+        for(auto &x:nums)
         {
-            
-            mp[x*x]++;
-        }
-        vector<int> ans;
-        for(auto [x,y]:mp)
-        {
-            //cout<<x<<"x "<<y<<"y\n";
-            for(int k=0;k<y;k++)
+            if(x<0)
             {
-                ans.push_back(x);
+                x = -1*x;
             }
         }
-      //  cout<<"#\n";
-        return ans;
+        sort(nums.begin(),nums.end());
+        for(int i=0;i<nums.size();i++)
+        {
+            nums[i] *= nums[i];
+        }
+        return nums;
     }
 };
