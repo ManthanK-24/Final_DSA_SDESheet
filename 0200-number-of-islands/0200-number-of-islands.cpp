@@ -1,52 +1,33 @@
 class Solution {
-    private: 
-    void bfs(vector<vector<char>>& grid, vector<vector<int>>& vis, int r,int c )
+public:
+    void dfs(int r, int c, vector<vector<char>>& grid, 
+             map<vector<int>,bool>& vis)
     {
-        int n = grid.size();
-        int m = grid[0].size();
+        if(r<0 || c<0 || r>=grid.size() || c>=grid[0].size() || 
+           grid[r][c]!='1'|| vis[{r,c}]==1)return;
         
-        queue<pair<int,int>> q;
-        q.push({r,c});
-        vector<int> dx = {0,0,1,-1};
-        vector<int> dy = {1,-1,0,0};
+        vis[{r,c}]=1;
+        dfs(r+1,c,grid,vis);
+        dfs(r-1,c,grid,vis);
+        dfs(r,c+1,grid,vis);
+        dfs(r,c-1,grid,vis);
         
+    }
+    int numIslands(vector<vector<char>>& grid) 
+    {
+        int ans = 0;
+        map<vector<int>,bool> vis;
         
-        while(!q.empty())
+        for(int i=0;i<grid.size();i++)
         {
-            int x = q.front().first;
-            int y = q.front().second;
-            q.pop();
-            for(int i=0;i<4;i++)
+            for(int j=0;j<grid[0].size();j++)
             {
-                int nx = x + dx[i];
-                int ny = y + dy[i];
-                if(nx>=0 and ny>=0 and nx<n and ny<m and 
-                   grid[nx][ny]=='1' and !vis[nx][ny] )
+                if(grid[i][j]=='1' && vis[{i,j}]==0)
                 {
-                    vis[nx][ny] = 1 ;
-                    q.push({nx,ny});
+                    ans++;
+                    dfs(i,j,grid,vis);
                 }
             }
-        }
-          
-    }
-public:
-    int numIslands(vector<vector<char>>& grid) {
-        
-        int ans = 0;
-        int n = grid.size();
-        int m = grid[0].size();
-        vector<vector<int>> vis(n,vector<int>(m,0));
-        for(int i=0;i<n;i++)
-        {
-           for(int j=0;j<m;j++)
-           {
-               if(grid[i][j]=='1' and !vis[i][j])
-               {
-                   ans++;
-                   bfs(grid,vis,i,j);
-               }
-           }
         }
         return ans;
     }
