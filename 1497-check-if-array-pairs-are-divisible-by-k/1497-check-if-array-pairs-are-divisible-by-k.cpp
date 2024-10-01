@@ -2,8 +2,8 @@ class Solution {
 public:
     bool canArrange(vector<int>& arr, int k) {
         
-        map<int,int> mp;
-        map<int,bool> checked;
+        vector<int> mp(k,0);
+        
         for(auto x:arr)
         {
             int v = x%k;
